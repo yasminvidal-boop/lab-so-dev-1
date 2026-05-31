@@ -8,7 +8,7 @@
 # // ASSIGN SYS004,TAPE para associar um job a um dispositivo.
 # No shell moderno, qual mecanismo cumpre papel equivalente?
 
-Resposta:
+Resposta: o shell moderno cumpre o papel do JCL usando principalmente os pipes (|), os redirecionamentos (>, <, >>) e os scripts shell. Eles conectam programas e associam entradas e saídas a arquivos ou dispositivos, como o JCL fazia com comandos do tipo // ASSIGN SYS004,TAPE.
 
 # ─────────────────────────────────────────────────────
 
@@ -19,11 +19,11 @@ Resposta:
 #    papel? Como o make sabe que não precisa recompilar um arquivo
 #    que não mudou?
 
-Resposta 1:
+Resposta 1:No make, o mecanismo equivalente é o sistema de dependências e timestamps. O Makefile define quais arquivos dependem de outros, e o make verifica a data de modificação de cada arquivo. Se o arquivo alvo estiver mais recente que suas dependências, ele entende que nada mudou e mostra "Nothing to be done", sem recompilar. Se alguma dependência foi alterada depois, o make recompila apenas o necessário.
 
 
 # 2. O monitor unificava "supervisor, carregador e rotinas de I/O
 #    sob uma interface textual". O que o Makefile unifica no fluxo
 #    de desenvolvimento moderno?
 
-Resposta 2:
+Resposta 2:O Makefile unifica todo o fluxo de desenvolvimento moderno em uma interface textual automatizada: compilação (gcc), geração de executáveis, limpeza de arquivos (make clean), geração de relatórios, execução de scripts e outras tarefas do projeto. Assim como o monitor histórico unificava supervisor, carregador e rotinas de I/O, o Makefile centraliza e automatiza as etapas do build e organização do projeto.
