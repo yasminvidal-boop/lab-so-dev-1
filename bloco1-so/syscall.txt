@@ -1,48 +1,61 @@
 # Atividade 3 — Modo usuário × modo kernel
 # Preencha este arquivo durante a atividade.
-# ───────────────────────────────────────────
+# ─────────────────────────────────────────────────────
 
 # PARTE A — Observar syscalls com strace
 
 # Cole abaixo a linha relevante da saída de:
 # strace echo "ola" 2>&1 | grep write
 
+-- write(1, "ola\n", 4) = 4
+
 Saída filtrada:
 
+-- fd: 1
+conteúdo: "ola\n"
+retorno: 4
+
 # Anote:
-#   Argumento 1 (file descriptor):
+#   Argumento 1 (file descriptor): 1
+
 #   O que está sendo escrito:
+write(1, "ola\n", 4) = 4
+
 #   Valor de retorno:
 
-fd:
-conteúdo:
-retorno:
+fd: 1
+conteúdo: "ola\n"
+retorno: 4
 
 
 # PARTE B — Programa C com write() direto
 
 # Cole aqui o código de syscall_direto.c que você escreveu:
 
-[código-fonte]
+#include <unistd.h>
 
+int main() {
+    const char msg[] = "Modo usuario -> kernel via write()\n";
+    write(1, msg, sizeof(msg) - 1);
+    return 0;
+}
 
-# Cole aqui a linha write(...) da saída de strace -o strace.txt ./syscall_direto:
+# Cole aqui a linha write(...) da saída de strace ./syscall_direto:
 
-[saída do strace]
+write(1, "Modo usuario -> kernel via write()\n", 38) = 38
 
 
 # PARTE C — Questões de síntese
 
-# 1. A apresentação mostrou que "instruções de I/O são privilegiadas". 
-#    Com base no que o strace revelou, explique com suas palavras como um programa
-#    de usuário consegue fazer I/O sem executar instruções privilegiadas diretamente.
+# 1. A apresentação afirma que "instruções de I/O são privilegiadas".
+#    Como um programa de usuário consegue fazer I/O sem executar
+#    instruções privilegiadas diretamente? (mínimo 2 frases)
 
-Resposta 1:
+Resposta 1: Pois eles utilizam uma chamada do Sistema, como o write(), que fazem a transição pro Kernel que realiza a operação e retornam o resultado pra tela do Usuário
 
 
-# 2. Na apresentação sobre a genealogia do software, vimos que os programas de canal
-#    eram responsáveis por intermediar a transferência de dados entre a memória e os
-#    dispositivos, sem intervenção direta da CPU principal. Qual elemento do sistema 
-#    operacional moderno herda esse papel? 
+# 2. Compare write(fd, buffer, tamanho) com o "programa de canal"
+#    da apresentação: o que os dois têm em comum em termos de
+#    responsabilidades?
 
-Resposta 2:
+Resposta 2: Ambos informam ao programa o que deve ser feito, sem executar a operação fisicamente. A operação fica responsável pelo hardware, enquanto o programa apenas fornece os dados e parâmetros.
